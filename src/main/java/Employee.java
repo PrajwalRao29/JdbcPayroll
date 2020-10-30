@@ -1,8 +1,6 @@
 public class Employee {
     int company_id;
     String company_name;
-    int department_id;
-    int department_name;
     int emp_id;
     String name;
     String phone;
@@ -19,8 +17,6 @@ public class Employee {
         return "Employee{" +
                 "company_id=" + company_id +
                 ", company_name='" + company_name + '\'' +
-                ", department_id=" + department_id +
-                ", department_name=" + department_name +
                 ", emp_id=" + emp_id +
                 ", name='" + name + '\'' +
                 ", phone='" + phone + '\'' +
