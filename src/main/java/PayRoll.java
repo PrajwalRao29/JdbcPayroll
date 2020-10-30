@@ -31,10 +31,11 @@ public class PayRoll {
     public void update(String name,int salary)
     {
         try {
-
             String sql = "update payroll set basic_pay= " + salary + " where emp_id=" + "(select emp_id from employee where name = '" + name + "');";
             Connection c = con.getConnection();
-            Statement statement = c.createStatement();
+            PreparedStatement statement=c.prepareStatement("update payroll set basic_pay= ? where emp_id=(select emp_id from employee where name = ? name);");
+            statement.setInt(1,salary);
+            statement.setString(2,name);
            statement.executeUpdate(sql);
         }
         catch (Exception e)

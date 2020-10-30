@@ -12,7 +12,7 @@ public class TestPayroll {
     public void test2CheckUpdate()
     {
         PayRoll p=new PayRoll();
-        p.update("a",200000);
-        Assert.assertEquals(200000,p.readData().get(0).basic_pay);
+        p.update("a",300000);
+        Assert.assertEquals(300000,p.readData().get(0).basic_pay);
     }
 }
