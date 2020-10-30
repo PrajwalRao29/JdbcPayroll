@@ -1,8 +1,8 @@
 import java.sql.*;
 import java.util.*;
 
-public class DbDemo {
-    public static void main(String[] args) {
+public class ConnectionRetriever {
+   public Connection getConnection(){
         String url="jdbc:mysql://localhost:3306/testdb?useSSL=false";
         String userName="root";
         String password="Darkdr@nzer29";
@@ -17,11 +17,14 @@ public class DbDemo {
         try{
             System.out.println("Connecting to database:"+url);
             connection=DriverManager.getConnection(url,userName,password);
-            System.out.println("Connected ");
+            System.out.println("Connected "+connection);
+            return connection;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
+        return null;
     }
+
     private static void listDrivers(){
         Enumeration<Driver> driverList=DriverManager.getDrivers();
         while (driverList.hasMoreElements()){
