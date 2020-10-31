@@ -2,7 +2,19 @@ import java.sql.*;
 import java.util.*;
 
 public class PayRoll {
+    private PayRoll() {
+    }
+    private static PayRoll pinstance=null;
+    public static PayRoll getInstance()
+    {
+    if(pinstance==null)
+        pinstance=new PayRoll();
+
+    return pinstance;
+    }
+
     ConnectionRetriever con=new ConnectionRetriever();
+    PreparedStatement payrollUpdateStatement;
     public  List<Employee> readData(){
         String sql="select * from employee e, payroll p where e.emp_id=p.emp_id ;";
         List<Employee> arr=new ArrayList<Employee>();
@@ -33,10 +45,10 @@ public class PayRoll {
         try {
             String sql = "update payroll set basic_pay= " + salary + " where emp_id=" + "(select emp_id from employee where name = '" + name + "');";
             Connection c = con.getConnection();
-            PreparedStatement statement=c.prepareStatement("update payroll set basic_pay= ? where emp_id=(select emp_id from employee where name = ? name);");
-            statement.setInt(1,salary);
-            statement.setString(2,name);
-           statement.executeUpdate(sql);
+            payrollUpdateStatement=c.prepareStatement("update payroll set basic_pay= ? where emp_id=(select emp_id from employee where name = ? name);");
+            payrollUpdateStatement.setInt(1,salary);
+            payrollUpdateStatement.setString(2,name);
+            payrollUpdateStatement.executeUpdate(sql);
         }
         catch (Exception e)
         {
