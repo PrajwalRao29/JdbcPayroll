@@ -17,4 +17,10 @@ public class TestPayroll {
         p.update("a",300000);
         Assert.assertEquals(300000,p.readData().get(0).basic_pay);
     }
+    @Test
+    public void test3CheckBetween()
+    {
+        p=PayRoll.getInstance();
+        Assert.assertEquals(3,p.getBetween(1,3));
+    }
 }

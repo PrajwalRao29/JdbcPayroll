@@ -40,15 +40,31 @@ public class PayRoll {
         }
         return arr;
     }
+    public int getBetween(int start,int end)
+    { int count=0;
+        Connection c = con.getConnection();
+        try {
+            payrollUpdateStatement = c.prepareStatement("select * from employee where emp_id between ? and ?");
+            payrollUpdateStatement.setInt(1, start);
+            payrollUpdateStatement.setInt(2, end);
+            ResultSet result = payrollUpdateStatement.executeQuery();
+            while(result.next()) {
+           count++;
+            }
+            }
+         catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return count;
+    }
     public void update(String name,int salary)
     {
         try {
-            String sql = "update payroll set basic_pay= " + salary + " where emp_id=" + "(select emp_id from employee where name = '" + name + "');";
             Connection c = con.getConnection();
             payrollUpdateStatement=c.prepareStatement("update payroll set basic_pay= ? where emp_id=(select emp_id from employee where name = ? name);");
             payrollUpdateStatement.setInt(1,salary);
             payrollUpdateStatement.setString(2,name);
-            payrollUpdateStatement.executeUpdate(sql);
+            payrollUpdateStatement.executeUpdate();
         }
         catch (Exception e)
         {
