@@ -61,7 +61,7 @@ public class PayRoll {
         int count = 0;
         Connection c = con.getConnection();
         try {
-            payrollUpdateStatement = c.prepareStatement("select name from employee where gender='F'");
+            payrollUpdateStatement = c.prepareStatement("select count(name) from employee where gender='F'");
             ResultSet result = payrollUpdateStatement.executeQuery();
             while (result.next()) {
                 count++;
