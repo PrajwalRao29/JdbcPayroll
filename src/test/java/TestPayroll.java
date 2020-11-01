@@ -33,8 +33,8 @@ public class TestPayroll {
     public void test5CheckAdditionOfNewEmployee()
     {
         p=PayRoll.getInstance();
-        Employee e=new Employee("BridgeLabz","Sales","Giri","67890","ABCDE",'F',50000);
-        p.createEmployee(e);
+        Employee emp=new Employee("BridgeLabz","Sales","Giri","67890","ABCDE",'F',50000);
+        p.createEmployee(emp);
         Assert.assertEquals(4,p.readData().size());
     }
     @Test
