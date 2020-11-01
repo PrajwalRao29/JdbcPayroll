@@ -2,6 +2,8 @@ public class Employee {
     int company_id;
     String company_name;
     int emp_id;
+    int department_id;
+    String department_name;
     String name;
     String phone;
     String address;
@@ -11,6 +13,24 @@ public class Employee {
     int taxable_pay;
     int tax;
     int net_pay;
+
+    public Employee()
+    {
+
+    }
+    public Employee(String company_name, String department_name, String name, String phone, String address, char gender, int basic_pay, int deductions, int taxable_pay, int tax, int net_pay) {
+        this.company_name = company_name;
+        this.department_name = department_name;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.gender = gender;
+        this.basic_pay = basic_pay;
+        this.deductions = deductions;
+        this.taxable_pay = taxable_pay;
+        this.tax = tax;
+        this.net_pay = net_pay;
+    }
 
     @Override
     public String toString() {
