@@ -8,7 +8,7 @@ public class TestPayroll {
     public void test1CountEntriesAfterReadingData()
     {
         p=PayRoll.getInstance();
-        Assert.assertEquals(4,p.readData().size());
+        Assert.assertEquals(3,p.readData().size());
     }
     @Test
     public void test2CheckUpdate()
@@ -35,6 +35,13 @@ public class TestPayroll {
         p=PayRoll.getInstance();
         Employee e=new Employee("BridgeLabz","Sales","Giri","67890","ABCDE",'F',50000);
         p.createEmployee(e);
-        Assert.assertEquals(5,p.readData().size());
+        Assert.assertEquals(4,p.readData().size());
+    }
+    @Test
+    public void test6CascadeDelete()
+    {
+        p=PayRoll.getInstance();
+        p.cascadingDelete("Giri");
+        Assert.assertEquals(3,p.readData().size());
     }
 }

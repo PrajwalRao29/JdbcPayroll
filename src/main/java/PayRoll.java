@@ -60,6 +60,7 @@ public class PayRoll {
     public void createEmployee(Employee e) {
         Connection c = con.getConnection();
         try {
+            c.setAutoCommit(false);
             //Pushing Company details
             payrollUpdateStatement = c.prepareStatement("insert into company(company_name) values (?)");
             payrollUpdateStatement.setString(1, e.company_name);
@@ -112,7 +113,43 @@ public class PayRoll {
             payrollUpdateStatement.setInt(5, e.tax);
             payrollUpdateStatement.setInt(6, e.net_pay);
             payrollUpdateStatement.executeUpdate();
+            c.commit();
         } catch (SQLException throwables) {
+            throwables.printStackTrace();
+            try {
+                c.rollback();
+            } catch (SQLException sqlException) {
+                sqlException.printStackTrace();
+            }
+        }
+    }
+    public void cascadingDelete(String name)
+    {
+        try {
+            Connection c = con.getConnection();
+            int id=0;
+            payrollUpdateStatement = c.prepareStatement("select emp_id from employee where name=?");
+            payrollUpdateStatement.setString(1, name);
+            ResultSet result1 = payrollUpdateStatement.executeQuery();
+            while (result1.next()) {
+                id = result1.getInt(1);
+                break;
+            }
+            //Clear Payroll table
+            payrollUpdateStatement = c.prepareStatement("delete from payroll where emp_id=?");
+            payrollUpdateStatement.setInt(1, id);
+            payrollUpdateStatement.executeUpdate();
+            //Clear Employee_Department table
+            payrollUpdateStatement = c.prepareStatement("delete from employee_department where emp_id=?");
+            payrollUpdateStatement.setInt(1, id);
+            payrollUpdateStatement.executeUpdate();
+            //Clear Employee_table
+            payrollUpdateStatement = c.prepareStatement("delete from employee where emp_id=?");
+            payrollUpdateStatement.setInt(1, id);
+            payrollUpdateStatement.executeUpdate();
+        }
+        catch(SQLException throwables)
+        {
             throwables.printStackTrace();
         }
     }
