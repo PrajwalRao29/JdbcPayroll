@@ -40,6 +40,16 @@ public class PayRoll {
         }
         return arr;
     }
+    public void addEmployeesWithThread(ArrayList<Employee> employeeList) {
+        for(Employee employee : employeeList) {
+            Runnable task = () -> {
+               createEmployee(employee);
+            };
+            Thread thread = new Thread(task, employee.name);
+            thread.start();
+        }
+    }
+
     public int getBetween(int start,int end)
     { int count=0;
         Connection c = con.getConnection();
