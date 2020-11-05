@@ -1,5 +1,6 @@
 import org.junit.*;
 
+import java.sql.*;
 import java.time.*;
 import java.util.*;
 
@@ -35,16 +36,18 @@ public class TestPayroll {
     @Test
     public void test5CheckAdditionOfNewEmployee() {
         p = PayRoll.getInstance();
+        int count=p.readData().size();
         Employee emp = new Employee("BridgeLabz", "Sales", "Giri", "67890", "ABCDE", 'F', 50000);
         p.createEmployee(emp);
-        Assert.assertEquals(4, p.readData().size());
+        Assert.assertEquals(count+1, p.readData().size());
     }
 
     @Test
     public void test6CascadeDelete() {
         p = PayRoll.getInstance();
-        p.cascadingDelete("Giri");
-        Assert.assertEquals(3, p.readData().size());
+        int count=p.readData().size();
+        p.cascadingDelete("Hari");
+        Assert.assertEquals(count-1, p.readData().size());
     }
 
     @Test
@@ -59,5 +62,26 @@ public class TestPayroll {
         Instant end=Instant.now();
         System.out.println("Duration Without Thread: " + Duration.between(start, end));
         Assert.assertEquals(count+ 2, p.readData().size());
+        p.cascadingDelete("Giri");
+        p.cascadingDelete("Hari");
+    }
+    @Test
+    public void test8AddMultipleEmployeesThread()  {
+        p = PayRoll.getInstance();
+        ArrayList<Employee> arr=new ArrayList<>();
+        int count=p.readData().size();
+        System.out.println(count);
+        Instant start = Instant.now();
+        Employee e1 = new Employee("BridgeLabz", "Sales", "Giri", "67890", "ABCDE", 'F', 50000);
+        Employee e2 = new Employee("Capgemini", "HR", "Hari", "54321", "hijkl", 'M', 35000);
+        arr.add(e1);
+        arr.add(e2);
+        p.addEmployeesWithThread(arr);
+        Instant end=Instant.now();
+        System.out.println("Duration With Thread: " + Duration.between(start, end));
+        Assert.assertEquals(count+ 2, p.readData().size());
+        System.out.println(p.readData().size());
+        p.cascadingDelete("Giri");
+        p.cascadingDelete("Hari");
     }
 }

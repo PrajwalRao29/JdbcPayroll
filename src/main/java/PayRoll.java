@@ -41,12 +41,23 @@ public class PayRoll {
         return arr;
     }
     public void addEmployeesWithThread(ArrayList<Employee> employeeList) {
-        for(Employee employee : employeeList) {
+        System.out.println("addEmployeesWithThread");
+        HashMap<String, Boolean> salaryUpdatedStatus = new HashMap<>();
+        for(Employee e:employeeList) {
             Runnable task = () -> {
-               createEmployee(employee);
+                System.out.println("Task");
+                salaryUpdatedStatus.put(e.name, false);
+                createEmployee(e);
+                System.out.println(e);
+                salaryUpdatedStatus.put(e.name, true);
             };
-            Thread thread = new Thread(task, employee.name);
+            Thread thread = new Thread(task);
             thread.start();
+            try {
+                thread.sleep(10000);
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
         }
     }
 

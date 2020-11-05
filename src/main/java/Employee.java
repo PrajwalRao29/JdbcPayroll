@@ -14,10 +14,9 @@ public class Employee {
     int tax;
     int net_pay;
 
-    public Employee()
-    {
-
+    public Employee() {
     }
+
     public Employee(String company_name, String department_name, String name, String phone, String address, char gender, int basic_pay) {
         this.company_name = company_name;
         this.department_name = department_name;
