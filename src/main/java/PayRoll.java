@@ -42,14 +42,28 @@ public class PayRoll {
     }
     public void addEmployeesWithThread(ArrayList<Employee> employeeList) {
         System.out.println("addEmployeesWithThread");
-        HashMap<String, Boolean> salaryUpdatedStatus = new HashMap<>();
         for(Employee e:employeeList) {
             Runnable task = () -> {
-                System.out.println("Task");
-                salaryUpdatedStatus.put(e.name, false);
                 createEmployee(e);
-                System.out.println(e);
-                salaryUpdatedStatus.put(e.name, true);
+            };
+            Thread thread = new Thread(task);
+            thread.start();
+            try {
+                thread.sleep(150);
+            } catch (InterruptedException interruptedException) {
+                interruptedException.printStackTrace();
+            }
+        }
+    }
+
+    public void updateSalaryWithThread(String[] name,int[] salary){
+        System.out.println("updateSalaryWithThread");
+        for(int i=0;i<name.length;i++)
+        {
+            String n=name[i];
+            int s=salary[i];
+            Runnable task = () -> {
+            update(n,s);
             };
             Thread thread = new Thread(task);
             thread.start();
@@ -60,7 +74,6 @@ public class PayRoll {
             }
         }
     }
-
     public int getBetween(int start,int end)
     { int count=0;
         Connection c = con.getConnection();
@@ -192,7 +205,7 @@ public class PayRoll {
     {
         try {
             Connection c = con.getConnection();
-            payrollUpdateStatement=c.prepareStatement("update payroll set basic_pay= ? where emp_id=(select emp_id from employee where name = ? name);");
+            payrollUpdateStatement=c.prepareStatement("update payroll set basic_pay= ? where emp_id=(select emp_id from employee where name = ?);");
             payrollUpdateStatement.setInt(1,salary);
             payrollUpdateStatement.setString(2,name);
             payrollUpdateStatement.executeUpdate();

@@ -1,6 +1,4 @@
 import org.junit.*;
-
-import java.sql.*;
 import java.time.*;
 import java.util.*;
 
@@ -11,7 +9,7 @@ public class TestPayroll {
     @Test
     public void test1CountEntriesAfterReadingData() {
         p = PayRoll.getInstance();
-        Assert.assertEquals(3, p.readData().size());
+        Assert.assertEquals(5, p.readData().size());
     }
 
     @Test
@@ -46,7 +44,7 @@ public class TestPayroll {
     public void test6CascadeDelete() {
         p = PayRoll.getInstance();
         int count=p.readData().size();
-        p.cascadingDelete("Hari");
+        p.cascadingDelete("Giri");
         Assert.assertEquals(count-1, p.readData().size());
     }
 
@@ -83,5 +81,13 @@ public class TestPayroll {
         System.out.println(p.readData().size());
         p.cascadingDelete("Giri");
         p.cascadingDelete("Hari");
+    }
+    @Test
+    public void test9UpdateMultipleEmployeesThread() {
+        p = PayRoll.getInstance();
+        String[] name = {"a", "b", "c"};
+        int[] salary = {10000, 20000, 30000};
+        p.updateSalaryWithThread(name, salary);
+        Assert.assertEquals(10000, p.readData().get(0).basic_pay);
     }
 }

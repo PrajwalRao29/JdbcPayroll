@@ -2,7 +2,7 @@ import java.sql.*;
 import java.util.*;
 
 public class ConnectionRetriever {
-   public static Connection getConnection(){
+   public static synchronized Connection getConnection(){
         String url="jdbc:mysql://localhost:3306/testdb?useSSL=false";
         String userName="root";
         String password="Darkdr@nzer29";
